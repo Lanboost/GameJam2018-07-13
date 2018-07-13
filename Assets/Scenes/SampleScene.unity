@@ -606,14 +606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f414c3590b782f64bbbe265a9f5c0e4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 0.25
-  weaponRange: 500
-  gunEnd: {fileID: 0}
-  directedAgent: {fileID: 0}
-  fpsCam: {fileID: 0}
-  gunAudio: {fileID: 0}
-  laserLine: {fileID: 0}
-  nextFire: 0
 --- !u!114 &883157356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   count: 10
-  prefab: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e, type: 2}
+  prefab: {fileID: 1615521858624836, guid: 667197205ff250549a8c4a404cb7df16, type: 2}
   spawned: []
 --- !u!4 &1005060732
 Transform:
