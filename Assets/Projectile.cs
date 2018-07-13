@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour {
     public Vector3 direction = new Vector3();
     public float timeAlive = 3f;
     public float damage = 1f;
+    public float speed = 0.1f;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +16,7 @@ public class Projectile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.transform.position += direction;
+        this.transform.position += direction*speed;
         timeAlive -= Time.deltaTime;
         if(timeAlive <0)
         {
@@ -33,7 +34,13 @@ public class Projectile : MonoBehaviour {
             en.applyDamage(this.damage);
         }
 
-        Destroy(this.gameObject);
+        if (en != null || other.gameObject.tag == "Ground")
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+        }
         
     }
 }

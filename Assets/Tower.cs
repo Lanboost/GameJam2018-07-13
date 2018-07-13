@@ -9,6 +9,7 @@ public class Tower : MonoBehaviour {
     public float range = 1f;
     private float last = 0;
 
+
     public Projectile projectile;
 
 	// Use this for initialization

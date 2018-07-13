@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour {
     public void applyDamage(float dmg)
     {
         this.health -= dmg;
-        Debug.Log(this.health);
+        //Debug.Log(this.health);
         if(this.health <= 0)
         {
             Destroy(this.gameObject);
