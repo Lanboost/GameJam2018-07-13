@@ -111,4 +111,4 @@ MonoBehaviour:
   health: 100
   maxhealth: 100
   owner: {fileID: 0}
-  speed: 0
+  speed: 0.1

@@ -12,6 +12,51 @@ MonoBehaviour:
   m_Name: spawner1
   m_EditorClassIdentifier: 
   waves:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - waves:
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 1
+      delay: 0
+      interval: 0
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 3
+      delay: 5000
+      interval: 1000
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 5
+      delay: 15000
+      interval: 3000
+  - waves:
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 1
+      delay: 0
+      interval: 0
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 3
+      delay: 5000
+      interval: 1000
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 5
+      delay: 15000
+      interval: 3000
+  - waves:
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 1
+      delay: 0
+      interval: 0
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 3
+      delay: 5000
+      interval: 1000
+    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+        type: 2}
+      count: 5
+      delay: 15000
+      interval: 3000

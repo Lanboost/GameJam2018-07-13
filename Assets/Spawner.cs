@@ -9,31 +9,61 @@ public class Spawner : MonoBehaviour {
 
     private int time = 0;
 
+    private int waveid = 0;
+    private bool running = false;
+    public bool wavedone = false;
+
     // Use this for initialization
     void Start () {
 		
 	}
+
+    public void startNextWave()
+    {
+        waveid++;
+        
+        if (waveid < spawnwaves.waves.Count)
+        {
+            wavedone = false;
+            running = true;
+            time = 0;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        var before = time;
-        time += (int) (Time.deltaTime * 1000);
 
-        foreach(var wave in spawnwaves.waves)
+        if (running)
         {
-            for(var i=0; i<wave.count; i++)
+            var maxtime = 0;
+            var before = time;
+            time += (int)(Time.deltaTime * 1000);
+
+            foreach (var wave in spawnwaves.waves[waveid].waves)
             {
-                var shouldHaveSpawned = wave.delay + wave.interval * i;
-                //Debug.Log("Before: "+before+" , ShouldHaveSpawned:" + shouldHaveSpawned+ " time: "+time);
-                if (before <= shouldHaveSpawned && shouldHaveSpawned <= time)
+                for (var i = 0; i < wave.count; i++)
                 {
-                    var g = Instantiate(wave.monster);
-                    g.GetComponent<Enemy>().init(this);
+                    var shouldHaveSpawned = wave.delay + wave.interval * i;
+                    if(maxtime < shouldHaveSpawned)
+                    {
+                        maxtime = shouldHaveSpawned;
+                    }
+
+                    //Debug.Log("Before: "+before+" , ShouldHaveSpawned:" + shouldHaveSpawned+ " time: "+time);
+                    if (before <= shouldHaveSpawned && shouldHaveSpawned <= time)
+                    {
+                        var g = Instantiate(wave.monster);
+                        g.GetComponent<Enemy>().init(this);
+                    }
                 }
             }
+
+            if(maxtime < time)
+            {
+                wavedone = true;
+            }
+
         }
-
-
     }
 
 

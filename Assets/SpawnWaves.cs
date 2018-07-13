@@ -4,5 +4,5 @@ using System.Collections.Generic;
 
 public class SpawnWaves : ScriptableObject
 {
-    public List<SpawnWave> waves;
+    public List<Wave> waves;
 }
