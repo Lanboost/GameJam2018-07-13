@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if(Input.GetKey(KeyCode.W))
         {
+            this.GetComponent<Rigidbody>().MovePosition(this.transform.forward + this.transform.position);
 
-
-            this.gameObject.GetComponent<CharacterController>().Move(this.transform.forward);
+            //this.gameObject.GetComponent<CharacterController>().Move(this.transform.forward);
         }
 
         if(Input.GetKey(KeyCode.A))
