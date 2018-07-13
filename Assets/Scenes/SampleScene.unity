@@ -541,9 +541,8 @@ GameObject:
   - component: {fileID: 883157353}
   - component: {fileID: 883157352}
   - component: {fileID: 883157356}
-  - component: {fileID: 883157351}
-  - component: {fileID: 883157350}
   - component: {fileID: 883157355}
+  - component: {fileID: 883157350}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -551,8 +550,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &883157350
-BoxCollider:
+--- !u!143 &883157350
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -561,23 +560,13 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &883157351
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 883157349}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!23 &883157352
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -663,6 +652,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivity: {x: 5, y: 3}
   maxYAngle: 80
+  walkSpeed: 6
+  runSpeed: 11
+  limitDiagonalSpeed: 1
+  toggleRun: 0
+  jumpSpeed: 8
+  gravity: 20
+  fallingDamageThreshold: 10
+  slideWhenOverSlopeLimit: 0
+  slideOnTaggedObjects: 0
+  slideSpeed: 12
+  airControl: 0
+  antiBumpFactor: 0.75
+  antiBunnyHopFactor: 1
 --- !u!1 &1956763557
 GameObject:
   m_ObjectHideFlags: 0
