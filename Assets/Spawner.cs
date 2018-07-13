@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
-    public int count = 10;
-    public GameObject prefab;
+    public SpawnWaves spawnwaves;
 
-    public List<GameObject> spawned = new List<GameObject>();
+    public List<Vector3> pathCoords = new List<Vector3>();
+
+    private int time = 0;
+
     // Use this for initialization
     void Start () {
 		
@@ -14,20 +16,39 @@ public class Spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		for(var i= spawned.Count-1; i>=0;i--)
+        var before = time;
+        time += (int) (Time.deltaTime * 1000);
+
+        foreach(var wave in spawnwaves.waves)
         {
-            if(spawned[i] == null)
+            for(var i=0; i<wave.count; i++)
             {
-                spawned.RemoveAt(i);
+                var shouldHaveSpawned = wave.delay + wave.interval * i;
+                //Debug.Log("Before: "+before+" , ShouldHaveSpawned:" + shouldHaveSpawned+ " time: "+time);
+                if (before <= shouldHaveSpawned && shouldHaveSpawned <= time)
+                {
+                    var g = Instantiate(wave.monster);
+                    g.GetComponent<Enemy>().init(this);
+                }
             }
         }
 
 
-        if(spawned.Count < count)
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        if (pathCoords.Count >= 2)
         {
-            var g = Instantiate(prefab);
-            g.transform.position = new Vector3() + this.transform.position;
-            spawned.Add(g);
+            var last = pathCoords[0];
+            foreach (var v in pathCoords.GetRange(0, pathCoords.Count))
+            {
+
+                Gizmos.DrawLine(last, v);
+                last = v;
+            }
         }
-	}
+    }
 }
