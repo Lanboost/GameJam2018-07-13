@@ -46,6 +46,7 @@ public class Tower : MonoBehaviour {
             {
                 attack(objs[i]);
                 applyCd();
+                break;
             }
         }
     }
