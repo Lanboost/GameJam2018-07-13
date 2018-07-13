@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour {
     {
         // If the run button is set to toggle, then switch between walk/run speed. (We use Update for this...
         // FixedUpdate is a poor place to use GetButtonDown, since it doesn't necessarily run every frame and can miss the event)
-        if (toggleRun && grounded && Input.GetKey(KeyCode.LeftShift))
+        if (toggleRun && grounded && Input.GetKeyDown(KeyCode.LeftShift))
             speed = (speed == walkSpeed ? runSpeed : walkSpeed);
 
         currentRotation.x += Input.GetAxis("Mouse X") * sensitivity.x;
