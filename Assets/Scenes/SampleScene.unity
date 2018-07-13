@@ -653,7 +653,7 @@ MonoBehaviour:
   sensitivity: {x: 5, y: 3}
   maxYAngle: 80
   walkSpeed: 6
-  runSpeed: 11
+  runSpeed: 35.13
   limitDiagonalSpeed: 1
   toggleRun: 0
   jumpSpeed: 8
