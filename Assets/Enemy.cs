@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour {
         }
         dir.Normalize();
         this.transform.position += dir * speed;
+        this.transform.LookAt(owner.pathCoords[currentCoord]);
     }
 
     public void applyDamage(float dmg)

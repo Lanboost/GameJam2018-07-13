@@ -29,12 +29,12 @@ MonoBehaviour:
       delay: 15000
       interval: 3000
   - waves:
-    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+    - monster: {fileID: 1747408577166766, guid: e169cd0f1d0ea5649b16caa3000c9537,
         type: 2}
       count: 1
       delay: 0
       interval: 0
-    - monster: {fileID: 1726052383754470, guid: fc1965340d4ff9648a5bd317338de63e,
+    - monster: {fileID: 1747408577166766, guid: e169cd0f1d0ea5649b16caa3000c9537,
         type: 2}
       count: 3
       delay: 5000

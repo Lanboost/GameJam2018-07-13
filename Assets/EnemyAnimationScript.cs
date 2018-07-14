@@ -5,15 +5,15 @@ using UnityEngine.AI;
 
 public class EnemyAnimationScript : MonoBehaviour {
     Animator anim;
-    NavMeshAgent nav;
+    Enemy enemy;
 	// Use this for initialization
 	void Start () {
         anim = GetComponentInChildren<Animator>();
-        nav = GetComponent<NavMeshAgent>();
+        enemy = GetComponent<Enemy>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        anim.SetFloat("Speed", nav.speed);
+	void Update () {        
+        anim.SetFloat("Speed", enemy.speed);
 	}
 }
