@@ -7,7 +7,7 @@ public class Game : MonoBehaviour {
 
     public int state = 0;
     public int time = 30000;
-    public int wave = 1;
+    public int wave = 0;
 	// Use this for initialization
 	void Start () {
 		
@@ -15,6 +15,12 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(Input.GetKeyDown(KeyCode.Space) && state == 0)
+        {
+            time = 0;
+        }
+
+
 		if(state == 0)
         {
             time -= (int)(Time.deltaTime * 1000);
@@ -22,7 +28,7 @@ public class Game : MonoBehaviour {
             {
                 state = 1;
                 time = 0;
-                wave = 1;
+                wave += 1;
                 var spawners = FindObjectsOfType<Spawner>();
                 foreach(var s in spawners)
                 {

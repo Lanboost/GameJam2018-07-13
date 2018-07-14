@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class CreateSpawnWavesList
 {
-    [MenuItem("Assets/Create/Inventory Item List")]
+    [MenuItem("Assets/Create/Data/Inventory Item List")]
     public static SpawnWaves Create()
     {
         SpawnWaves asset = ScriptableObject.CreateInstance< SpawnWaves>();
