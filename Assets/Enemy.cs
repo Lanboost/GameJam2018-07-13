@@ -10,10 +10,10 @@ public class Enemy : MonoBehaviour {
     public float speed;
 
     private int currentCoord = 0;
-
+ 
 	// Use this for initialization
 	void Start () {
-		
+        
 	}
 
     public void init(Spawner s)
@@ -37,16 +37,23 @@ public class Enemy : MonoBehaviour {
         }
         dir.Normalize();
         this.transform.position += dir * speed;
-
     }
 
     public void applyDamage(float dmg)
     {
         this.health -= dmg;
-        //Debug.Log(this.health);
-        if(this.health <= 0)
+        if (this.health <= 0)
         {
-            Destroy(this.gameObject);
+            Death();
         }
+        //Debug.Log(this.health);
+        
+    }
+
+    private void Death()
+    {        
+        Destroy(GetComponent<Enemy>());
+        GetComponentInChildren<Animator>().SetTrigger("Death");
+        Destroy(this.gameObject, 1);    
     }
 }
