@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour {
     private bool playerControl = false;
     private int jumpTimer;
 
+    bool moving = false;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -73,6 +76,31 @@ public class PlayerController : MonoBehaviour {
         float inputY = Input.GetAxis("Vertical");
         // If both horizontal and vertical are used simultaneously, limit speed (if allowed), so the total doesn't exceed normal move speed
         float inputModifyFactor = (inputX != 0.0f && inputY != 0.0f && limitDiagonalSpeed) ? .7071f : 1.0f;
+        var animatior = this.GetComponentInChildren<Animator>();
+        
+        if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        {
+            if (moving == false)
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    animatior.SetTrigger("Run");
+                }
+                else
+                {
+                    animatior.SetTrigger("Walk");
+                }
+            }
+            moving = true;
+        }
+        else
+        {
+            if(moving)
+            {
+                animatior.SetTrigger("Idle");
+            }
+            moving = false;
+        }
 
         if (grounded)
         {
@@ -103,7 +131,12 @@ public class PlayerController : MonoBehaviour {
 
             // If running isn't on a toggle, then use the appropriate speed depending on whether the run button is down
             if (!toggleRun)
+            {
                 speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+
+                
+
+            }
 
             // If sliding (and it's allowed), or if we're on an object tagged "Slide", get a vector pointing down the slope we're on
             if ((sliding && slideWhenOverSlopeLimit) || (slideOnTaggedObjects && hit.collider.tag == "Slide"))
@@ -149,6 +182,15 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        var dir = new Vector3(moveDirection.x, 0, moveDirection.z);
+        if (dir.magnitude < 0.1)
+        {
+            animatior.gameObject.transform.localRotation = Quaternion.LookRotation(Vector3.forward);
+        }
+        else
+        {
+            animatior.gameObject.transform.rotation = Quaternion.LookRotation(dir);
+        }
         // Apply gravity
         moveDirection.y -= gravity * Time.deltaTime;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerTowerCreate : MonoBehaviour {
 
-    public GameObject prefab1;
+    public List<GameObject> towerprefabs;
 
     public GameObject building;
 
@@ -15,13 +15,26 @@ public class PlayerTowerCreate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Alpha1) && building == null)
+        for(var i=0; i<towerprefabs.Count ; i++)
         {
-            building = Instantiate(prefab1);
+            if (Input.GetKeyDown(KeyCode.Alpha1+i) && building == null)
+            {
+                building = Instantiate(towerprefabs[i]);
+            }
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
         {
+            if(building != null)
+            {
+                Destroy(building.gameObject);
+            }
+            building = null;
+        }
+
+        if(building != null && Input.GetMouseButtonDown(0))
+        {
+            building.GetComponent<Tower>().fire = true;
             building = null;
         }
 
@@ -32,7 +45,7 @@ public class PlayerTowerCreate : MonoBehaviour {
             var dmax = 6;
             var cam = Camera.main.transform;
             bool didHit = false;
-            building.transform.position = doRaycast(out didHit, cam.position, cam.forward);
+            building.transform.position = doRaycast(out didHit, cam.position, cam.forward)+new Vector3(0,0.5f);
             if(!didHit)
             {
                 building.SetActive(false);
@@ -45,11 +58,11 @@ public class PlayerTowerCreate : MonoBehaviour {
                 var dot = Vector3.Dot(heading, this.transform.forward);
                 if (dist < dmin || dot <= 0)
                 {
-                    building.transform.position = doRaycast(out didHit, this.transform.position + cam.forward * dmin + Vector3.up * 3, Vector3.down);
+                    building.transform.position = doRaycast(out didHit, this.transform.position + cam.forward * dmin + Vector3.up * 3, Vector3.down) + new Vector3(0, 0.5f);
                 }
                 else if (dist > dmax)
                 {
-                    building.transform.position = doRaycast(out didHit, this.transform.position+cam.forward * dmax + Vector3.up*3, Vector3.down);
+                    building.transform.position = doRaycast(out didHit, this.transform.position+cam.forward * dmax + Vector3.up*3, Vector3.down) + new Vector3(0, 0.5f);
                 }
             }
         }

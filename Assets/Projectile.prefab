@@ -131,7 +131,7 @@ MonoBehaviour:
   sendTriggerMessage: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
   skinWidth: 0.1
 --- !u!135 &135963275499572478
 SphereCollider:

@@ -33,8 +33,9 @@ public class Projectile : MonoBehaviour {
         {
             en.applyDamage(this.damage);
         }
+        
 
-        if (en != null || other.gameObject.tag == "Ground")
+        if (en != null || other.gameObject.layer == 9)
         {
             Destroy(this.gameObject);
         }

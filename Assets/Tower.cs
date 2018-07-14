@@ -8,6 +8,10 @@ public class Tower : MonoBehaviour {
 
     public float range = 1f;
     private float last = 0;
+    public bool fire = false;
+
+    public int health = 100;
+    public int maxhealth = 100;
 
 
     public Projectile projectile;
@@ -27,7 +31,7 @@ public class Tower : MonoBehaviour {
         Projectile proj = Instantiate(projectile);
         proj.gameObject.transform.position = new Vector3()+(this.transform.position);
 
-        var dir = enemy.transform.position - proj.gameObject.transform.position;
+        var dir = (enemy.transform.position + new Vector3(0, 0.5f)) - proj.gameObject.transform.position;
         dir.Normalize();
 
         proj.direction = dir;
@@ -53,15 +57,17 @@ public class Tower : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(last <= 0)
+        if (fire)
         {
-            tryAttack();
+            if (last <= 0)
+            {
+                tryAttack();
+            }
+            else
+            {
+                last -= Time.deltaTime;
+            }
         }
-        else
-        {
-            last -= Time.deltaTime;
-        }
-
 
 	}
 }

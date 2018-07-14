@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class Enemy1 : MonoBehaviour {
 
     public float health;
     public float maxhealth;
@@ -25,7 +25,9 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         var dir = owner.pathCoords[currentCoord] - this.transform.position;
+
         this.transform.LookAt(owner.pathCoords[currentCoord]);
         if(dir.magnitude < 0.2)
         {

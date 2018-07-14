@@ -8,6 +8,7 @@ public class Game : MonoBehaviour {
     public int state = 0;
     public int time = 30000;
     public int wave = 0;
+    public int cash = 0;
 	// Use this for initialization
 	void Start () {
 		
