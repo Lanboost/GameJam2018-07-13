@@ -30,7 +30,7 @@ class AI
     }
 }
 
-
+/*
 
 class AIGoblinBombMan : AIGoblin
 {
@@ -46,7 +46,7 @@ class AIGoblinBombMan : AIGoblin
         }
 
     }
-}
+}*/
 
 
 class AIGoblin: AI
