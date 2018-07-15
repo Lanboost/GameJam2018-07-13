@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ApplyRTT : MonoBehaviour {
-    public PrefabSprite data;
+    public TowerBuildList data;
     public int index = 0;
+
+    public Text text;
+    public Text cost;
+    public RawImage image;
 	// Use this for initialization
 	void Start () {
 		
@@ -15,7 +19,9 @@ public class ApplyRTT : MonoBehaviour {
 	void Update () {
 		if(data.items[index].rt != null)
         {
-            this.GetComponent<RawImage>().texture = data.items[index].rt;
+            image.texture = data.items[index].rt;
         }
-	}
+        text.text = ""+index + 1;
+        cost.text = "$" + data.items[index].cost;
+    }
 }

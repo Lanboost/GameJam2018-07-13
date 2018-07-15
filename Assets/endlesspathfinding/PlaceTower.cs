@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaceTower : MonoBehaviour {
-
-    public List<GameObject> towerprefabs;
+    public TowerBuildList towerBuild;
 
     public GameObject building;
-
+    private int cost = 0;
     // Use this for initialization
     void Start () {
 		
@@ -15,11 +14,14 @@ public class PlaceTower : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        for (var i = 0; i < towerprefabs.Count; i++)
+        var game = GameObject.FindObjectOfType<EndlessGame>();
+        for (var i = 0; i < towerBuild.items.Count; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && building == null)
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && building == null && game.gold >= towerBuild.items[i].cost)
             {
-                building = Instantiate(towerprefabs[i]);
+                cost = towerBuild.items[i].cost;
+                building = Instantiate(towerBuild.items[i].prefab);
+
             }
         }
 
@@ -34,8 +36,15 @@ public class PlaceTower : MonoBehaviour {
 
         if (building != null && Input.GetMouseButtonDown(0))
         {
-            building.GetComponent<Tower>().fire = true;
-            building = null;
+            int x = (int)building.transform.position.x - 200;
+            int z = (int)building.transform.position.z - 200;
+            if (game.map.canWalk(x, z))
+            {
+                game.map.place(x,z, building.GetComponent<Tower>());
+                game.gold -= cost;
+                building.GetComponent<Tower>().fire = true;
+                building = null;
+            }
         }
 
 

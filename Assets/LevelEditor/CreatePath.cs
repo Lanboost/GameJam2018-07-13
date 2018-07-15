@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
 #if UNITY_EDITOR 
 [CustomEditor(typeof(Spawner))]
 public class CreatePath : Editor
@@ -48,3 +48,4 @@ public class CreatePath : Editor
     }
 }
 #endif
+*/

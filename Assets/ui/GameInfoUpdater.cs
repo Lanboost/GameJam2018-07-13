@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
 public class GameInfoUpdater : MonoBehaviour {
     public Text intotext;
     public Text wavetext;
@@ -25,3 +25,4 @@ public class GameInfoUpdater : MonoBehaviour {
         wavetext.text = str;
     }
 }
+*/

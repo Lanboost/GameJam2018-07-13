@@ -13,7 +13,8 @@ public class GameInfoUIUpdate : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         var game = GameObject.FindObjectOfType<EndlessGame>();
+        var gamedata = GameObject.FindObjectOfType<GameData>();
         text.text = "Gold: " + game.gold;
-
+        text.text += "\nScore: " + gamedata.score;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 class Node: IComparable<Node>
@@ -20,19 +21,35 @@ class Node: IComparable<Node>
     }
 }
 
-public class PathFinding : MonoBehaviour {
+public class PathFinding {
     static int size = 100;
     private int[,] pathlen = new int[size, size];
     private bool[,] walkable = new bool[size, size];
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private Tower[,] towers = new Tower[size, size];
+
+    public void drawDebug()
+    {
+        var o = GameObject.Find("Player");
+
+
+        for (var i = (int) Math.Max(0, o.transform.position.x-200); i < (int)Math.Min(size, o.transform.position.x - 200+10); i++)
+        {
+            for (var j = (int)Math.Max(0, o.transform.position.z - 200); j < (int)Math.Min(size, o.transform.position.z - 200+10); j++)
+            {
+                Handles.Label(new Vector3(200+i, 1, 200+j), ":"+pathlen[i, j]);
+            }
+        }
+    }
+
+    public bool canWalk(int x, int z)
+    {
+        return walkable[x, z];
+    }
+
+    public Tower getTower(int x, int z)
+    {
+        return towers[x, z];
+    }
 
     public void runFirst(int x, int z)
     {
@@ -40,6 +57,7 @@ public class PathFinding : MonoBehaviour {
         {
             for (var j = 0; j< size; j++)
             {
+                walkable[i, j] = true;
                 pathlen[i, j] = int.MaxValue;
             }
         }
@@ -47,26 +65,62 @@ public class PathFinding : MonoBehaviour {
 
         pathlen[x, z] = 0;
         PriorityQueue< Node> q = new PriorityQueue<Node>();
-        while(q.Count > 0)
+
+        q.Enqueue(new Node(x - 1, z, 1));
+        q.Enqueue(new Node(x + 1, z, 1));
+        q.Enqueue(new Node(x, z - 1, 1));
+        q.Enqueue(new Node(x, z + 1, 1));
+        Debug.Log(q.Count);
+        while (q.Count > 0)
         {
             var n = q.Dequeue();
-            if(n.cost < pathlen[x,z])
+
+            if (n.x >= 0 && n.x < size && n.y >= 0 && n.y < size)
             {
-                if (walkable[x, z])
+
+
+                if (n.cost < pathlen[n.x, n.y])
                 {
-                    pathlen[x, z] = n.cost;
-                    q.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
-                    q.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
-                    q.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
-                    q.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+
+                    if (walkable[n.x, n.y])
+                    {
+                        pathlen[n.x, n.y] = n.cost;
+                        q.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
+                        q.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
+                        q.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
+                        q.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+                    }
                 }
             }
         }
     }
 
-    public void place(int x, int z)
+    public int getPath(int x, int z)
+    {
+        //Debug.Log("X:" + x + " , Z: " + z);
+        if (pathlen[x + 1, z] < pathlen[x, z])
+        {
+            return 0;
+        }
+        if (pathlen[x - 1, z] < pathlen[x, z])
+        {
+            return 2;
+        }
+        if (pathlen[x, z+1] < pathlen[x, z])
+        {
+            return 1;
+        }
+        if (pathlen[x, z-1] < pathlen[x, z])
+        {
+            return 3;
+        }
+        return -1;
+    }
+
+    public void place(int x, int z, Tower tower)
     {
         walkable[x, z] = false;
+        towers[x, z] = tower;
         
         Queue<Node> toremove = new Queue<Node>();
         toremove.Enqueue(new Node(x+1, z, pathlen[x, z] + 1));
@@ -80,34 +134,45 @@ public class PathFinding : MonoBehaviour {
         while (toremove.Count > 0)
         {
             var n = toremove.Dequeue();
-            if(pathlen[n.x, n.y] < n.cost)
+            if (n.x >= 0 && n.x < size && n.y >= 0 && n.y < size)
             {
-                q.Enqueue(new Node(n.x+1, n.y, pathlen[n.x, n.y]+1));
-                q.Enqueue(new Node(n.x-1, n.y, pathlen[n.x, n.y] + 1));
-                q.Enqueue(new Node(n.x, n.y+1, pathlen[n.x, n.y] + 1));
-                q.Enqueue(new Node(n.x, n.y-1, pathlen[n.x, n.y] + 1));
-            }
-            else
-            {
-                toremove.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
-                toremove.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
-                toremove.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
-                toremove.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+                if (pathlen[n.x, n.y] < n.cost)
+                {
+                    q.Enqueue(new Node(n.x + 1, n.y, pathlen[n.x, n.y] + 1));
+                    q.Enqueue(new Node(n.x - 1, n.y, pathlen[n.x, n.y] + 1));
+                    q.Enqueue(new Node(n.x, n.y + 1, pathlen[n.x, n.y] + 1));
+                    q.Enqueue(new Node(n.x, n.y - 1, pathlen[n.x, n.y] + 1));
+                }
+                else if (pathlen[n.x, n.y] != int.MaxValue)
+                {
+                    toremove.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
+                    toremove.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
+                    toremove.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
+                    toremove.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+                    pathlen[n.x, n.y] = int.MaxValue;
+                }
             }
         }
-        
+
         while (q.Count > 0)
         {
             var n = q.Dequeue();
-            if (n.cost < pathlen[x, z])
+
+            if (n.x >= 0 && n.x < size && n.y >= 0 && n.y < size)
             {
-                if (walkable[x, z])
+
+
+                if (n.cost < pathlen[n.x, n.y])
                 {
-                    pathlen[x, z] = n.cost;
-                    q.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
-                    q.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
-                    q.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
-                    q.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+
+                    if (walkable[n.x, n.y])
+                    {
+                        pathlen[n.x, n.y] = n.cost;
+                        q.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
+                        q.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
+                        q.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
+                        q.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+                    }
                 }
             }
         }
@@ -136,20 +201,26 @@ public class PathFinding : MonoBehaviour {
             q.Enqueue(new Node(x, z + 1, pathlen[x, z] + 1));
         }
 
-        
+
         while (q.Count > 0)
         {
             var n = q.Dequeue();
-            if (n.cost < pathlen[x, z])
+
+            if (n.x >= 0 && n.x < size && n.y >= 0 && n.y < size)
             {
-                
-                if (walkable[x, z])
+
+
+                if (n.cost < pathlen[n.x, n.y])
                 {
-                    pathlen[x, z] = n.cost;
-                    q.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
-                    q.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
-                    q.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
-                    q.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+
+                    if (walkable[n.x, n.y])
+                    {
+                        pathlen[n.x, n.y] = n.cost;
+                        q.Enqueue(new Node(n.x - 1, n.y, n.cost + 1));
+                        q.Enqueue(new Node(n.x + 1, n.y, n.cost + 1));
+                        q.Enqueue(new Node(n.x, n.y - 1, n.cost + 1));
+                        q.Enqueue(new Node(n.x, n.y + 1, n.cost + 1));
+                    }
                 }
             }
         }

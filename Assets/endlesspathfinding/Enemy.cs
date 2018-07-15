@@ -7,29 +7,24 @@ public class Enemy : MonoBehaviour
 
     public float health;
     public float maxhealth;
-    public Spawner owner;
-    public float speed;
+    public float speed = 0.1f;
 
-    private int currentCoord = 0;
+    AI ai = new AIGoblin();
 
     // Use this for initialization
     void Start()
     {
-
-    }
-
-    public void init(Spawner s)
-    {
-        this.owner = s;
-        this.transform.position = new Vector3() + owner.pathCoords[0];
-        currentCoord = 1;
+        ai.go = this.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        var dir = owner.pathCoords[currentCoord] - this.transform.position;
+        ai.run(Time.deltaTime);
+
+
+        /*var dir = owner.pathCoords[currentCoord] - this.transform.position;
 
         this.transform.LookAt(owner.pathCoords[currentCoord]);
         if (dir.magnitude < 0.2)
@@ -43,7 +38,7 @@ public class Enemy : MonoBehaviour
         }
         dir.Normalize();
         this.transform.position += dir * speed;
-        this.transform.LookAt(owner.pathCoords[currentCoord]);
+        this.transform.LookAt(owner.pathCoords[currentCoord]);*/
     }
 
     public void applyDamage(float dmg)
