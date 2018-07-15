@@ -10,6 +10,8 @@ public class EndlessGame : MonoBehaviour {
 
     public GameObject enemy;
 
+    public GameObject enemy1;
+
     public float enemyTick = 5;
 
     public Tower test;
@@ -29,7 +31,7 @@ public class EndlessGame : MonoBehaviour {
 
         map.runFirst(50, 50);
         //map.place(55, 55);
-        for (int i = 0; i <= 10; i++)
+        /*for (int i = 0; i <= 10; i++)
         {
             PlaceTower(55, 45 + i);
             PlaceTower(45, 45 + i);
@@ -39,7 +41,7 @@ public class EndlessGame : MonoBehaviour {
         {
             PlaceTower(45 + i, 55);
             PlaceTower(45 + i, 45);
-        }
+        }*/
         //map.destroy(50, 55);
 
 
@@ -56,15 +58,44 @@ public class EndlessGame : MonoBehaviour {
             GameObject.FindObjectOfType<GameData>().score += 1;
         }
 
-        enemyTick -= Time.deltaTime;
-        if (enemyTick < 0)
-        {
-            var o = Instantiate(enemy);
-            o.transform.position = new Vector3(280, 0, 280);
-            enemyTick += 5;
-        }
 
-         
+        var n = (int) Random.value * (GameObject.FindObjectOfType<GameData>().score / 30)+1;
+
+        for (var i = 0; i < n; i++) {
+            var c = Random.value * 100;
+            if(c < 2)
+            {
+                var t = Random.value * 2;
+                GameObject o = null;
+                if (t <= 1)
+                {
+                    o = Instantiate(enemy1);
+                }
+                else
+                {
+                    o = Instantiate(enemy1);
+                }
+
+                var p1 = Random.value * 4;
+                if (p1 <= 1)
+                {
+                    o.transform.position = new Vector3(290, 0, 210 + Random.value * 80);
+                }
+                else if (p1 <= 2)
+                {
+                    o.transform.position = new Vector3(210, 0, 210 + Random.value * 80);
+
+                }
+                else if (p1 <= 3)
+                {
+                    o.transform.position = new Vector3(210 + Random.value * 80, 0, 290);
+                }
+                else
+                {
+                    o.transform.position = new Vector3(210 + Random.value * 80, 0, 210);
+                }
+            }
+        }         
     }
 
     private void OnDrawGizmosSelected()

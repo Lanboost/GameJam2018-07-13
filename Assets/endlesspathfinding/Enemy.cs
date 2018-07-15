@@ -11,6 +11,25 @@ public class Enemy : MonoBehaviour
 
     AI ai = new AIGoblin();
 
+    public int lastAnim = 0;
+
+    public void setWalking()
+    {
+        if (lastAnim != 1)
+        {
+            Debug.Log("Walking");
+            lastAnim = 1;
+            GetComponentInChildren<Animator>().SetTrigger("walk");
+        }
+    }
+
+    public void setAttack()
+    {
+        lastAnim = 2;
+        GetComponentInChildren<Animator>().SetTrigger("attack");
+        
+    }
+
     // Use this for initialization
     void Start()
     {

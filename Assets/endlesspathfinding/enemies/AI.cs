@@ -11,8 +11,12 @@ class AI
 
     protected void moveTowards(Vector3 pos, float time, float speed)
     {
+        go.GetComponent<Enemy>().setWalking();
+
         var dir = pos - go.transform.position;
         var len = dir.normalized * speed * time;
+
+        go.transform.LookAt(dir+ go.transform.position);
 
         if (dir.magnitude < len.magnitude || dir.magnitude < 0.1f)
         {
@@ -63,6 +67,7 @@ class AIGoblin: AI
         currentcd -= time;
         if(currentcd <0)
         {
+            go.GetComponent<Enemy>().setAttack();
             //do damage
 
             target.doDamage(dmg);
