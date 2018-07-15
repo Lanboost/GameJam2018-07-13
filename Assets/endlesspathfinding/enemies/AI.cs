@@ -30,6 +30,25 @@ class AI
     }
 }
 
+
+
+class AIGoblinBombMan : AIGoblin
+{
+    void attack(float time, Tower target)
+    {
+        currentcd -= time;
+        if (currentcd < 0)
+        {
+            //do damage
+
+            target.doDamage(dmg);
+            currentcd += cd;
+        }
+
+    }
+}
+
+
 class AIGoblin: AI
 {
     float cd = 1;

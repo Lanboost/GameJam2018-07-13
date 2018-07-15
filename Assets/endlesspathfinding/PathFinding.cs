@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+
 using UnityEngine;
 
 class Node: IComparable<Node>
@@ -29,6 +28,8 @@ public class PathFinding {
 
     public void drawDebug()
     {
+#if UNITYEDITOR
+        using UnityEditor;
         var o = GameObject.Find("Player");
 
 
@@ -39,6 +40,7 @@ public class PathFinding {
                 Handles.Label(new Vector3(200+i, 1, 200+j), ":"+pathlen[i, j]);
             }
         }
+#endif
     }
 
     public bool canWalk(int x, int z)
